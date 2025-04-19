@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  text2sql:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    depends_on:
+      - ollama
+    networks:
+      - text2sql-network
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - text2sql-network
+
+volumes:
+  ollama_data:
+
+networks:
+  text2sql-network:
+    driver: bridge 
